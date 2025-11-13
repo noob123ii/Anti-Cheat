@@ -1,7 +1,5 @@
 [build]
-  command = "echo 'No build step required'"
   functions = "netlify/functions"
-  publish = "."
 
 # Redirect all requests to the serverless function
 [[redirects]]
