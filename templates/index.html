@@ -504,17 +504,16 @@
         </div>
 
         <div class="tabs">
-            <button class="tab-button active" onclick="switchTab('config')">⚙️ Configuration</button>
-            <button class="tab-button" onclick="switchTab('banned')">🚫 Banned Accounts</button>
-            <button class="tab-button" onclick="switchTab('allowed')">✅ Allowed Accounts</button>
-            <button class="tab-button" onclick="switchTab('console')">💻 Console</button>
-            <button class="tab-button" onclick="switchTab('cloudscript')">📜 CloudScript</button>
-            <button class="tab-button" onclick="switchTab('api')">🔗 API Documentation</button>
+            <button type="button" class="tab-button active" onclick="switchTab('config')">⚙️ Configuration</button>
+            <button type="button" class="tab-button" onclick="switchTab('banned')">🚫 Banned Accounts</button>
+            <button type="button" class="tab-button" onclick="switchTab('allowed')">✅ Allowed Accounts</button>
+            <button type="button" class="tab-button" onclick="switchTab('console')">💻 Console</button>
+            <button type="button" class="tab-button" onclick="switchTab('cloudscript')">📜 CloudScript</button>
+            <button type="button" class="tab-button" onclick="switchTab('api')">🔗 API Documentation</button>
         </div>
 
         <div id="config-tab" class="tab-content active">
             <div id="message" class="message"></div>
-            
             <h2 class="section-title">General Settings</h2>
             <form id="config-form">
                 <div class="form-grid">
@@ -653,25 +652,25 @@
                     <input type="hidden" id="allowed-devices" name="ALLOWED_DEVICES">
                 </div>
 
-                <button type="submit" class="button button-primary" style="margin-top: 8px;">💾 Save Configuration</button>
+                <button type="submit" class="button button-primary inline-style-button">💾 Save Configuration</button>
             </form>
         </div>
 
         <div id="banned-tab" class="tab-content">
             <div style="margin-bottom: 10px;">
-                <button class="button button-success" onclick="loadBannedAccounts()">🔄 Refresh</button>
+                <button type="button" class="button button-success" onclick="loadBannedAccounts()">🔄 Refresh</button>
             </div>
             <div id="banned-message" class="message"></div>
             <div class="table-container">
                 <table class="banned-accounts-table">
                     <thead>
                         <tr>
-                            <th>Player Name</th>
-                            <th>Player ID</th>
-                            <th>HWID</th>
-                            <th>IP</th>
-                            <th>Reason</th>
-                            <th>Ban Duration</th>
+                            <th scope="col">Player Name</th>
+                            <th scope="col">Player ID</th>
+                            <th scope="col">HWID</th>
+                            <th scope="col">IP</th>
+                            <th scope="col">Reason</th>
+                            <th scope="col">Ban Duration</th>
                         </tr>
                     </thead>
                     <tbody id="banned-accounts-body">
@@ -684,12 +683,12 @@
         </div>
 
         <div id="allowed-tab" class="tab-content">
-            <div style="display: flex; gap: 6px; margin-bottom: 8px; flex-wrap: wrap;">
-                <button class="button button-success" onclick="loadAllowedAccounts()">🔄 Refresh</button>
-                <button class="button button-primary" onclick="addSelectedAccounts()">✅ Add Selected</button>
-                <button class="button button-danger" onclick="removeSelectedAccounts()">❌ Remove Selected</button>
-                <button class="button button-warning" onclick="selectAll()">☑️ Select All</button>
-                <button class="button button-warning" onclick="deselectAll()">☐ Deselect All</button>
+            <div class="inline-style-wrapper">
+                <button type="button" class="button button-success" onclick="loadAllowedAccounts()">🔄 Refresh</button>
+                <button type="button" class="button button-primary" onclick="addSelectedAccounts()">✅ Add Selected</button>
+                <button type="button" class="button button-danger" onclick="removeSelectedAccounts()">❌ Remove Selected</button>
+                <button type="button" class="button button-warning" onclick="selectAll()">☑️ Select All</button>
+                <button type="button" class="button button-warning" onclick="deselectAll()">☐ Deselect All</button>
             </div>
             <div id="allowed-message" class="message"></div>
             
@@ -747,7 +746,7 @@
                 <label for="api-url-input">API Server URL</label>
                 <div style="display: flex; gap: 6px;">
                     <input type="text" id="api-url-input" class="form-group input" style="flex: 1;" value="" onchange="updateCloudScriptCode()" oninput="updateCloudScriptCode()">
-                    <button class="button button-primary" onclick="copyCloudScript('all')">📋 Copy All</button>
+                    <button type="button" class="button button-primary" onclick="copyCloudScript('all')">📋 Copy All</button>
                 </div>
                 <div class="info-box" style="margin-top: 6px;">
                     <p><strong>Note:</strong> Change this to your deployed server URL (e.g., https://your-domain.com) when deploying to production.</p>
@@ -757,7 +756,7 @@
             <div class="api-endpoint" style="margin-bottom: 12px;">
                 <h3 style="display: flex; justify-content: space-between; align-items: center;">
                     <span>Device Verification Handler</span>
-                    <button class="copy-button" onclick="copyCloudScript('device')">Copy</button>
+                    <button type="button" class="copy-button" onclick="copyCloudScript('device')">Copy</button>
                 </h3>
                 <p class="api-description">Verify Quest device and detect unauthorized devices. This replaces your VerifyQuestDevice handler.</p>
                 <pre class="api-example" id="cloudscript-device" style="max-height: 300px; overflow-y: auto;"></pre>
@@ -766,7 +765,7 @@
             <div class="api-endpoint" style="margin-bottom: 12px;">
                 <h3 style="display: flex; justify-content: space-between; align-items: center;">
                     <span>Player Detection Handler</span>
-                    <button class="copy-button" onclick="copyCloudScript('player')">Copy</button>
+                    <button type="button" class="copy-button" onclick="copyCloudScript('player')">Copy</button>
                 </h3>
                 <p class="api-description">Detect suspicious player behavior and cheating patterns.</p>
                 <pre class="api-example" id="cloudscript-player" style="max-height: 300px; overflow-y: auto;"></pre>
@@ -775,7 +774,7 @@
             <div class="api-endpoint" style="margin-bottom: 12px;">
                 <h3 style="display: flex; justify-content: space-between; align-items: center;">
                     <span>VPN Detection Handler</span>
-                    <button class="copy-button" onclick="copyCloudScript('vpn')">Copy</button>
+                    <button type="button" class="copy-button" onclick="copyCloudScript('vpn')">Copy</button>
                 </h3>
                 <p class="api-description">Detect VPN, proxy, or suspicious network connections.</p>
                 <pre class="api-example" id="cloudscript-vpn" style="max-height: 300px; overflow-y: auto;"></pre>
@@ -784,7 +783,7 @@
             <div class="api-endpoint" style="margin-bottom: 12px;">
                 <h3 style="display: flex; justify-content: space-between; align-items: center;">
                     <span>Complete CloudScript File</span>
-                    <button class="copy-button" onclick="copyCloudScript('all')">Copy All</button>
+                    <button type="button" class="copy-button" onclick="copyCloudScript('all')">Copy All</button>
                 </h3>
                 <p class="api-description">Complete CloudScript file with all handlers ready to use.</p>
                 <pre class="api-example" id="cloudscript-all" style="max-height: 350px; overflow-y: auto;"></pre>
@@ -801,7 +800,7 @@
                 </div>
                 <div class="console-input-container">
                     <input type="text" class="console-input" id="console-input" placeholder="Enter command..." onkeypress="handleConsoleKeyPress(event)">
-                    <button class="button button-primary" onclick="executeConsoleCommand()">Execute</button>
+                    <button type="button" class="button button-primary" onclick="executeConsoleCommand()">Execute</button>
                 </div>
                 <div class="console-help">
                     <h4>Available Commands:</h4>
@@ -832,7 +831,7 @@
                 <p class="api-description">Retrieve current AntiCheat configuration settings.</p>
                 <div class="api-url" id="url-config">
                     /AntiCheat/Config
-                    <button class="copy-button" onclick="copyToClipboard('url-config')">Copy</button>
+                    <button type="button" class="copy-button" onclick="copyToClipboard('url-config')">Copy</button>
                 </div>
                 <div class="api-example">
 // GET Request
@@ -862,7 +861,7 @@ const response = http.request(
                 <p class="api-description">Detect suspicious player behavior and cheating patterns.</p>
                 <div class="api-url" id="url-detect-player">
                     /AntiCheat/DetectPlayer
-                    <button class="copy-button" onclick="copyToClipboard('url-detect-player')">Copy</button>
+                    <button type="button" class="copy-button" onclick="copyToClipboard('url-detect-player')">Copy</button>
                 </div>
                 <div class="api-example">
 const response = http.request(
@@ -895,7 +894,7 @@ const response = http.request(
                 <p class="api-description">Verify device type and detect unauthorized devices (Desktop, Mobile, VirtualBox, etc.).</p>
                 <div class="api-url" id="url-detect-headset">
                     /AntiCheat/DetectHeadset
-                    <button class="copy-button" onclick="copyToClipboard('url-detect-headset')">Copy</button>
+                    <button type="button" class="copy-button" onclick="copyToClipboard('url-detect-headset')">Copy</button>
                 </div>
                 <div class="api-example">
 const response = http.request(
@@ -931,7 +930,7 @@ const response = http.request(
                 <p class="api-description">Detect VPN, proxy, or suspicious network connections.</p>
                 <div class="api-url" id="url-detect-vpn">
                     /AntiCheat/DetectVpn
-                    <button class="copy-button" onclick="copyToClipboard('url-detect-vpn')">Copy</button>
+                    <button type="button" class="copy-button" onclick="copyToClipboard('url-detect-vpn')">Copy</button>
                 </div>
                 <div class="api-example">
 const response = http.request(
@@ -966,7 +965,7 @@ const response = http.request(
                 <p class="api-description">Retrieve list of all banned accounts with details.</p>
                 <div class="api-url" id="url-banned-accounts">
                     /AntiCheat/BannedAccounts
-                    <button class="copy-button" onclick="copyToClipboard('url-banned-accounts')">Copy</button>
+                    <button type="button" class="copy-button" onclick="copyToClipboard('url-banned-accounts')">Copy</button>
                 </div>
                 <div class="api-example">
 // GET Request
@@ -990,7 +989,7 @@ fetch('http://localhost:8000/AntiCheat/BannedAccounts')
                 <p class="api-description">Retrieve list of all whitelisted/allowed accounts.</p>
                 <div class="api-url" id="url-allowed-accounts">
                     /AntiCheat/AllowedAccounts
-                    <button class="copy-button" onclick="copyToClipboard('url-allowed-accounts')">Copy</button>
+                    <button type="button" class="copy-button" onclick="copyToClipboard('url-allowed-accounts')">Copy</button>
                 </div>
                 <div class="api-example">
 // GET Request
@@ -1013,7 +1012,7 @@ fetch('http://localhost:8000/AntiCheat/AllowedAccounts')
                 <p class="api-description">Execute remote console commands (ban, kick, config, etc.).</p>
                 <div class="api-url" id="url-console">
                     /api/console/command
-                    <button class="copy-button" onclick="copyToClipboard('url-console')">Copy</button>
+                    <button type="button" class="copy-button" onclick="copyToClipboard('url-console')">Copy</button>
                 </div>
                 <div class="api-example">
 // Ban a player
@@ -1068,7 +1067,7 @@ fetch('http://localhost:8000/api/console/command', {
                 <p class="api-description">Update AntiCheat configuration settings from web UI.</p>
                 <div class="api-url" id="url-update-config">
                     /api/config/update
-                    <button class="copy-button" onclick="copyToClipboard('url-update-config')">Copy</button>
+                    <button type="button" class="copy-button" onclick="copyToClipboard('url-update-config')">Copy</button>
                 </div>
                 <div class="api-example">
 fetch('http://localhost:8000/api/config/update', {
