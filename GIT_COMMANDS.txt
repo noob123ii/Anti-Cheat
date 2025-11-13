@@ -1,0 +1,33 @@
+# Git Commands to Push to GitHub
+# Follow these steps in order:
+
+# Step 1: Make sure you're in the project directory
+cd C:\Users\cpatt\Downloads\AntiCheat
+
+# Step 2: Check current status (optional)
+git status
+
+# Step 3: Create a new repository on GitHub first:
+# - Go to https://github.com/new
+# - Name your repository (e.g., "AntiCheat" or "anticheat-api")
+# - DO NOT initialize with README, .gitignore, or license
+# - Click "Create repository"
+
+# Step 4: Add your GitHub repository as remote
+# Replace YOUR_USERNAME and REPO_NAME with your actual values:
+git remote add origin https://github.com/YOUR_USERNAME/REPO_NAME.git
+
+# Example:
+# git remote add origin https://github.com/cpatt/AntiCheat.git
+
+# Step 5: Rename branch to main (if not already)
+git branch -M main
+
+# Step 6: Push to GitHub
+git push -u origin main
+
+# If you get authentication errors, you may need to:
+# - Use a Personal Access Token instead of password
+# - Or set up SSH keys
+# - Or use: git config --global credential.helper wincred
+
