@@ -1,0 +1,1888 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ title }}</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #000000;
+            --bg-secondary: #0a0a0a;
+            --bg-tertiary: #111111;
+            --accent-primary: #6366f1;
+            --accent-secondary: #8b5cf6;
+            --text-primary: #e2e8f0;
+            --text-secondary: #94a3b8;
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --border: #1a1a1a;
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            padding: 10px;
+            line-height: 1.4;
+            font-size: 0.9em;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border);
+        }
+
+        .header h1 {
+            background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 1.8em;
+            margin-bottom: 5px;
+            font-weight: 700;
+        }
+
+        .header p {
+            color: var(--text-secondary);
+            font-size: 0.95em;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+        }
+
+        .tab-button {
+            padding: 8px 16px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9em;
+            font-weight: 600;
+            color: var(--text-secondary);
+            transition: all 0.3s;
+        }
+
+        .tab-button:hover {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            transform: translateY(-2px);
+        }
+
+        .tab-button.active {
+            background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+            color: white;
+            border-color: var(--accent-primary);
+        }
+
+        .tab-content {
+            display: none;
+            background: var(--bg-secondary);
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border);
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+
+        .form-group {
+            margin-bottom: 12px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: var(--text-primary);
+            font-weight: 600;
+            font-size: 0.9em;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 8px;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 0.9em;
+            color: var(--text-primary);
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 60px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: auto;
+            transform: scale(1.3);
+            cursor: pointer;
+            accent-color: var(--accent-primary);
+        }
+
+        .button {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.85em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-right: 6px;
+            margin-bottom: 6px;
+        }
+
+        .button-primary {
+            background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+            color: white;
+        }
+
+        .button-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(99, 102, 241, 0.4);
+        }
+
+        .button-success {
+            background: var(--success);
+            color: white;
+        }
+
+        .button-danger {
+            background: var(--danger);
+            color: white;
+        }
+
+        .button-warning {
+            background: var(--warning);
+            color: white;
+        }
+
+        .button:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        .message {
+            padding: 10px;
+            border-radius: 6px;
+            margin-bottom: 12px;
+            display: none;
+            border-left: 4px solid;
+            font-size: 0.9em;
+        }
+
+        .message.success {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+            border-color: var(--success);
+        }
+
+        .message.error {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--danger);
+            border-color: var(--danger);
+        }
+
+        .message.info {
+            background: rgba(99, 102, 241, 0.1);
+            color: var(--accent-primary);
+            border-color: var(--accent-primary);
+        }
+
+        .message.warning {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--warning);
+            border-color: var(--warning);
+        }
+
+        .table-container {
+            overflow-x: auto;
+            margin-top: 10px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--bg-tertiary);
+            border-radius: 6px;
+            overflow: hidden;
+            font-size: 0.85em;
+        }
+
+        table th,
+        table td {
+            padding: 6px 8px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        table th {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.75em;
+            letter-spacing: 0.3px;
+        }
+
+        table tr:hover {
+            background: rgba(99, 102, 241, 0.05);
+        }
+
+        table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .console-container {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 12px;
+            margin-top: 10px;
+        }
+
+        .console-output {
+            background: #000;
+            color: #00ff00;
+            padding: 10px;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.8em;
+            height: 250px;
+            overflow-y: auto;
+            margin-bottom: 10px;
+            border: 1px solid var(--border);
+        }
+
+        .console-output::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .console-output::-webkit-scrollbar-track {
+            background: #1a1a1a;
+        }
+
+        .console-output::-webkit-scrollbar-thumb {
+            background: var(--accent-primary);
+            border-radius: 4px;
+        }
+
+        .console-input-container {
+            display: flex;
+            gap: 10px;
+        }
+
+        .console-input {
+            flex: 1;
+            padding: 8px;
+            background: var(--bg-primary);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            color: var(--text-primary);
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+
+        .console-input:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+        }
+
+        .console-help {
+            background: var(--bg-tertiary);
+            padding: 10px;
+            border-radius: 6px;
+            margin-top: 10px;
+            border: 1px solid var(--border);
+            font-size: 0.85em;
+        }
+
+        .console-help h4 {
+            color: var(--accent-primary);
+            margin-bottom: 6px;
+            font-size: 0.95em;
+        }
+
+        .console-help code {
+            background: var(--bg-primary);
+            padding: 2px 6px;
+            border-radius: 4px;
+            color: var(--accent-secondary);
+            font-family: 'Courier New', monospace;
+        }
+
+        .info-box {
+            background: rgba(99, 102, 241, 0.1);
+            border-left: 4px solid var(--accent-primary);
+            padding: 8px 12px;
+            margin-bottom: 12px;
+            border-radius: 4px;
+            font-size: 0.85em;
+        }
+
+        .info-box p {
+            color: var(--text-secondary);
+            margin: 3px 0;
+        }
+
+        .section-title {
+            color: var(--accent-primary);
+            font-size: 1.2em;
+            margin-bottom: 12px;
+            padding-bottom: 6px;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+
+        .badge-success {
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--success);
+        }
+
+        .badge-danger {
+            background: rgba(239, 68, 68, 0.2);
+            color: var(--danger);
+        }
+
+        .badge-warning {
+            background: rgba(245, 158, 11, 0.2);
+            color: var(--warning);
+        }
+
+        .account-checkbox,
+        .allowed-checkbox {
+            transform: scale(1.3);
+            cursor: pointer;
+            accent-color: var(--accent-primary);
+        }
+
+        .api-endpoint {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 12px;
+            margin-bottom: 12px;
+        }
+
+        .api-endpoint h3 {
+            color: var(--accent-primary);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1em;
+        }
+
+        .api-method {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 0.85em;
+            margin-right: 10px;
+        }
+
+        .method-get {
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--success);
+        }
+
+        .method-post {
+            background: rgba(99, 102, 241, 0.2);
+            color: var(--accent-primary);
+        }
+
+        .api-url {
+            background: var(--bg-primary);
+            padding: 6px 8px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            color: var(--accent-secondary);
+            margin: 6px 0;
+            border: 1px solid var(--border);
+            word-break: break-all;
+            font-size: 0.85em;
+        }
+
+        .api-example {
+            background: var(--bg-primary);
+            padding: 10px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.8em;
+            color: var(--text-secondary);
+            margin-top: 6px;
+            border: 1px solid var(--border);
+            overflow-x: auto;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            line-height: 1.4;
+        }
+
+        .api-description {
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+            font-size: 0.85em;
+        }
+
+        .copy-button {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border);
+            color: var(--text-primary);
+            padding: 4px 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.75em;
+            margin-left: 8px;
+        }
+
+        .copy-button:hover {
+            background: var(--accent-primary);
+            border-color: var(--accent-primary);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🛡️ AntiCheat Control Center</h1>
+            <p>Advanced configuration and remote management system</p>
+        </div>
+
+        <div class="tabs">
+            <button class="tab-button active" onclick="switchTab('config')">⚙️ Configuration</button>
+            <button class="tab-button" onclick="switchTab('banned')">🚫 Banned Accounts</button>
+            <button class="tab-button" onclick="switchTab('allowed')">✅ Allowed Accounts</button>
+            <button class="tab-button" onclick="switchTab('console')">💻 Console</button>
+            <button class="tab-button" onclick="switchTab('cloudscript')">📜 CloudScript</button>
+            <button class="tab-button" onclick="switchTab('api')">🔗 API Documentation</button>
+        </div>
+
+        <div id="config-tab" class="tab-content active">
+            <div id="message" class="message"></div>
+            
+            <h2 class="section-title">General Settings</h2>
+            <form id="config-form">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="debug-mode">Debug Mode</label>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="debug-mode" name="DEBUG_MODE">
+                            <span>Enable debug logging</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="auto-ban">Auto Ban Enabled</label>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="auto-ban" name="AUTO_BAN_ENABLED">
+                            <span>Automatically ban detected players</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="enable-whitelist">Enable Whitelist</label>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="enable-whitelist" name="ENABLE_WHITELIST">
+                            <span>Only allow whitelisted players</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="enable-blacklist">Enable Blacklist</label>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="enable-blacklist" name="ENABLE_BLACKLIST">
+                            <span>Use blacklist for bans</span>
+                        </div>
+                    </div>
+                </div>
+
+                <h2 class="section-title">Detection Settings</h2>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="vpn-detection">VPN Detection</label>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="vpn-detection" name="VPN_DETECTION_ENABLED">
+                            <span>Enable VPN/Proxy detection</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="device-detection">Device Detection</label>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="device-detection" name="DEVICE_DETECTION_ENABLED">
+                            <span>Enable device verification</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="player-detection">Player Detection</label>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="player-detection" name="PLAYER_DETECTION_ENABLED">
+                            <span>Enable player behavior detection</span>
+                        </div>
+                    </div>
+                </div>
+
+                <h2 class="section-title">Ban Settings</h2>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="ban-duration">Ban Duration (Hours)</label>
+                        <input type="number" id="ban-duration" name="BAN_DURATION_HOURS" min="0" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="kick-duration">Kick Duration (Hours)</label>
+                        <input type="number" id="kick-duration" name="KICK_DURATION_HOURS" min="0" value="0" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="max-login-attempts">Max Login Attempts</label>
+                        <input type="number" id="max-login-attempts" name="MAX_LOGIN_ATTEMPTS" min="1" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="login-cooldown">Login Cooldown (Seconds)</label>
+                        <input type="number" id="login-cooldown" name="LOGIN_COOLDOWN_SECONDS" min="0" required>
+                    </div>
+                </div>
+
+                <h2 class="section-title">Webhooks</h2>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="ban-webhook">Ban Webhook URL</label>
+                        <input type="url" id="ban-webhook" name="BAN_WEBHOOK_URL" placeholder="https://discord.com/api/webhooks/...">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="allowed-webhook">Allowed Device Webhook URL</label>
+                        <input type="url" id="allowed-webhook" name="ALLOWED_WEBHOOK_URL" placeholder="https://discord.com/api/webhooks/...">
+                    </div>
+                </div>
+
+                <h2 class="section-title">Device Settings</h2>
+                <div class="form-group">
+                    <label>Allowed Devices</label>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 10px; margin-top: 8px;">
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="device-quest2" name="device" value="quest2">
+                            <label for="device-quest2" style="margin: 0; font-weight: normal; cursor: pointer;">Quest 2</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="device-oculus-quest" name="device" value="oculus quest">
+                            <label for="device-oculus-quest" style="margin: 0; font-weight: normal; cursor: pointer;">Oculus Quest</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="device-quest-3" name="device" value="quest3">
+                            <label for="device-quest-3" style="margin: 0; font-weight: normal; cursor: pointer;">Quest 3</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="device-quest-pro" name="device" value="quest pro">
+                            <label for="device-quest-pro" style="margin: 0; font-weight: normal; cursor: pointer;">Quest Pro</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="device-vive" name="device" value="vive">
+                            <label for="device-vive" style="margin: 0; font-weight: normal; cursor: pointer;">HTC Vive</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="device-index" name="device" value="index">
+                            <label for="device-index" style="margin: 0; font-weight: normal; cursor: pointer;">Valve Index</label>
+                        </div>
+                    </div>
+                    <div class="form-group" style="margin-top: 12px;">
+                        <label for="custom-devices">Custom Devices (one per line)</label>
+                        <textarea id="custom-devices" name="custom-devices" rows="3" placeholder="Enter custom device names, one per line&#10;Example:&#10;custom headset&#10;another device"></textarea>
+                        <div class="info-box" style="margin-top: 8px;">
+                            <p><strong>Note:</strong> Check the devices above that should be allowed, or add custom device names (one per line) in the text area.</p>
+                        </div>
+                    </div>
+                    <input type="hidden" id="allowed-devices" name="ALLOWED_DEVICES">
+                </div>
+
+                <button type="submit" class="button button-primary" style="margin-top: 8px;">💾 Save Configuration</button>
+            </form>
+        </div>
+
+        <div id="banned-tab" class="tab-content">
+            <div style="margin-bottom: 10px;">
+                <button class="button button-success" onclick="loadBannedAccounts()">🔄 Refresh</button>
+            </div>
+            <div id="banned-message" class="message"></div>
+            <div class="table-container">
+                <table class="banned-accounts-table">
+                    <thead>
+                        <tr>
+                            <th>Player Name</th>
+                            <th>Player ID</th>
+                            <th>HWID</th>
+                            <th>IP</th>
+                            <th>Reason</th>
+                            <th>Ban Duration</th>
+                        </tr>
+                    </thead>
+                    <tbody id="banned-accounts-body">
+                        <tr>
+                            <td colspan="6" style="text-align: center; padding: 10px;">Loading...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="allowed-tab" class="tab-content">
+            <div style="display: flex; gap: 6px; margin-bottom: 8px; flex-wrap: wrap;">
+                <button class="button button-success" onclick="loadAllowedAccounts()">🔄 Refresh</button>
+                <button class="button button-primary" onclick="addSelectedAccounts()">✅ Add Selected</button>
+                <button class="button button-danger" onclick="removeSelectedAccounts()">❌ Remove Selected</button>
+                <button class="button button-warning" onclick="selectAll()">☑️ Select All</button>
+                <button class="button button-warning" onclick="deselectAll()">☐ Deselect All</button>
+            </div>
+            <div id="allowed-message" class="message"></div>
+            
+            <h3 style="color: var(--accent-primary); margin-bottom: 8px; font-size: 1em;">Currently Allowed Accounts</h3>
+            <div class="table-container" style="margin-bottom: 15px;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="width: 50px;">✓</th>
+                            <th>Player Name</th>
+                            <th>Player ID</th>
+                            <th>Added At</th>
+                        </tr>
+                    </thead>
+                    <tbody id="allowed-accounts-body">
+                        <tr>
+                            <td colspan="4" style="text-align: center; padding: 10px;">Loading...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3 style="color: var(--accent-primary); margin-bottom: 8px; font-size: 1em;">All Accounts (from Banned List)</h3>
+            <div class="info-box" style="margin-bottom: 10px;">
+                <p><strong>Instructions:</strong> Check boxes to add/remove accounts. Use "Select All" for bulk operations.</p>
+            </div>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="width: 50px;">☑</th>
+                            <th>Player Name</th>
+                            <th>Player ID</th>
+                            <th>HWID</th>
+                            <th>IP</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="all-accounts-body">
+                        <tr>
+                            <td colspan="6" style="text-align: center; padding: 10px;">Loading...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="cloudscript-tab" class="tab-content">
+            <h2 class="section-title">CloudScript Code Generator</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 12px; font-size: 0.9em;">
+                Copy and paste these CloudScript handlers into your PlayFab CloudScript. The API URL will be automatically set to your current server.
+            </p>
+            
+            <div class="form-group" style="margin-bottom: 12px;">
+                <label for="api-url-input">API Server URL</label>
+                <div style="display: flex; gap: 6px;">
+                    <input type="text" id="api-url-input" class="form-group input" style="flex: 1;" value="" onchange="updateCloudScriptCode()" oninput="updateCloudScriptCode()">
+                    <button class="button button-primary" onclick="copyCloudScript('all')">📋 Copy All</button>
+                </div>
+                <div class="info-box" style="margin-top: 6px;">
+                    <p><strong>Note:</strong> Change this to your deployed server URL (e.g., https://your-domain.com) when deploying to production.</p>
+                </div>
+            </div>
+
+            <div class="api-endpoint" style="margin-bottom: 12px;">
+                <h3 style="display: flex; justify-content: space-between; align-items: center;">
+                    <span>Device Verification Handler</span>
+                    <button class="copy-button" onclick="copyCloudScript('device')">Copy</button>
+                </h3>
+                <p class="api-description">Verify Quest device and detect unauthorized devices. This replaces your VerifyQuestDevice handler.</p>
+                <pre class="api-example" id="cloudscript-device" style="max-height: 300px; overflow-y: auto;"></pre>
+            </div>
+
+            <div class="api-endpoint" style="margin-bottom: 12px;">
+                <h3 style="display: flex; justify-content: space-between; align-items: center;">
+                    <span>Player Detection Handler</span>
+                    <button class="copy-button" onclick="copyCloudScript('player')">Copy</button>
+                </h3>
+                <p class="api-description">Detect suspicious player behavior and cheating patterns.</p>
+                <pre class="api-example" id="cloudscript-player" style="max-height: 300px; overflow-y: auto;"></pre>
+            </div>
+
+            <div class="api-endpoint" style="margin-bottom: 12px;">
+                <h3 style="display: flex; justify-content: space-between; align-items: center;">
+                    <span>VPN Detection Handler</span>
+                    <button class="copy-button" onclick="copyCloudScript('vpn')">Copy</button>
+                </h3>
+                <p class="api-description">Detect VPN, proxy, or suspicious network connections.</p>
+                <pre class="api-example" id="cloudscript-vpn" style="max-height: 300px; overflow-y: auto;"></pre>
+            </div>
+
+            <div class="api-endpoint" style="margin-bottom: 12px;">
+                <h3 style="display: flex; justify-content: space-between; align-items: center;">
+                    <span>Complete CloudScript File</span>
+                    <button class="copy-button" onclick="copyCloudScript('all')">Copy All</button>
+                </h3>
+                <p class="api-description">Complete CloudScript file with all handlers ready to use.</p>
+                <pre class="api-example" id="cloudscript-all" style="max-height: 350px; overflow-y: auto;"></pre>
+            </div>
+        </div>
+
+        <div id="console-tab" class="tab-content">
+            <h2 class="section-title">Remote Console</h2>
+            <div class="console-container">
+                <div class="console-output" id="console-output">
+                    <div style="color: #00ff00;">AntiCheat Console v1.0</div>
+                    <div style="color: #94a3b8;">Type 'help' for available commands</div>
+                    <div style="color: #94a3b8;">Ready...</div>
+                </div>
+                <div class="console-input-container">
+                    <input type="text" class="console-input" id="console-input" placeholder="Enter command..." onkeypress="handleConsoleKeyPress(event)">
+                    <button class="button button-primary" onclick="executeConsoleCommand()">Execute</button>
+                </div>
+                <div class="console-help">
+                    <h4>Available Commands:</h4>
+                    <p><code>ban &lt;playerId&gt; [playerName] [reason] [duration]</code> - Ban a player</p>
+                    <p><code>kick &lt;playerId&gt; [playerName] [reason]</code> - Kick a player (0 hour ban)</p>
+                    <p><code>unban &lt;playerId&gt;</code> - Unban a player</p>
+                    <p><code>allow &lt;playerId&gt; [playerName]</code> - Add player to allowed list</p>
+                    <p><code>disallow &lt;playerId&gt;</code> - Remove player from allowed list</p>
+                    <p><code>config &lt;key&gt; &lt;value&gt;</code> - Update configuration</p>
+                    <p><code>help</code> - Show this help message</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="api-tab" class="tab-content">
+            <h2 class="section-title">API Documentation</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 30px;">
+                All API endpoints are available at <code style="color: var(--accent-primary);">http://localhost:8000</code> or your server URL.
+                Use these endpoints from your cloudscript or external applications.
+            </p>
+
+            <div class="api-endpoint">
+                <h3>
+                    <span class="api-method method-get">GET</span>
+                    <span class="api-method method-post">POST</span>
+                    Get Configuration
+                </h3>
+                <p class="api-description">Retrieve current AntiCheat configuration settings.</p>
+                <div class="api-url" id="url-config">
+                    /AntiCheat/Config
+                    <button class="copy-button" onclick="copyToClipboard('url-config')">Copy</button>
+                </div>
+                <div class="api-example">
+// GET Request
+fetch('http://localhost:8000/AntiCheat/Config')
+  .then(response => response.json())
+  .then(data => console.log(data));
+
+// POST Request (from cloudscript)
+const response = http.request(
+    "http://localhost:8000/AntiCheat/Config",
+    "POST",
+    JSON.stringify({
+        args: {},
+        context: {}
+    }),
+    "application/json",
+    null
+);
+                </div>
+            </div>
+
+            <div class="api-endpoint">
+                <h3>
+                    <span class="api-method method-post">POST</span>
+                    Detect Player
+                </h3>
+                <p class="api-description">Detect suspicious player behavior and cheating patterns.</p>
+                <div class="api-url" id="url-detect-player">
+                    /AntiCheat/DetectPlayer
+                    <button class="copy-button" onclick="copyToClipboard('url-detect-player')">Copy</button>
+                </div>
+                <div class="api-example">
+const response = http.request(
+    "http://localhost:8000/AntiCheat/DetectPlayer",
+    "POST",
+    JSON.stringify({
+        args: {
+            playerId: "12345",
+            playerData: {
+                suspiciousActivity: false,
+                unusualBehavior: false
+            }
+        },
+        context: {
+            currentPlayerId: "12345",
+            playStreamEvent: {}
+        }
+    }),
+    "application/json",
+    null
+);
+                </div>
+            </div>
+
+            <div class="api-endpoint">
+                <h3>
+                    <span class="api-method method-post">POST</span>
+                    Detect Headset/Device
+                </h3>
+                <p class="api-description">Verify device type and detect unauthorized devices (Desktop, Mobile, VirtualBox, etc.).</p>
+                <div class="api-url" id="url-detect-headset">
+                    /AntiCheat/DetectHeadset
+                    <button class="copy-button" onclick="copyToClipboard('url-detect-headset')">Copy</button>
+                </div>
+                <div class="api-example">
+const response = http.request(
+    "http://localhost:8000/AntiCheat/DetectHeadset",
+    "POST",
+    JSON.stringify({
+        args: {
+            playerId: "12345",
+            deviceInfo: {}
+        },
+        context: {
+            currentPlayerId: "12345",
+            playStreamEvent: {
+                DeviceInfo: {
+                    DeviceModel: "Quest 2",
+                    Platform: "Android",
+                    DeviceType: "VR Headset"
+                }
+            }
+        }
+    }),
+    "application/json",
+    null
+);
+                </div>
+            </div>
+
+            <div class="api-endpoint">
+                <h3>
+                    <span class="api-method method-post">POST</span>
+                    Detect VPN/Proxy
+                </h3>
+                <p class="api-description">Detect VPN, proxy, or suspicious network connections.</p>
+                <div class="api-url" id="url-detect-vpn">
+                    /AntiCheat/DetectVpn
+                    <button class="copy-button" onclick="copyToClipboard('url-detect-vpn')">Copy</button>
+                </div>
+                <div class="api-example">
+const response = http.request(
+    "http://localhost:8000/AntiCheat/DetectVpn",
+    "POST",
+    JSON.stringify({
+        args: {
+            playerId: "12345",
+            ipAddress: "192.168.1.1",
+            networkData: {
+                isVpn: false,
+                isProxy: false
+            }
+        },
+        context: {
+            currentPlayerId: "12345",
+            playStreamEvent: {}
+        }
+    }),
+    "application/json",
+    null
+);
+                </div>
+            </div>
+
+            <div class="api-endpoint">
+                <h3>
+                    <span class="api-method method-get">GET</span>
+                    <span class="api-method method-post">POST</span>
+                    Get Banned Accounts
+                </h3>
+                <p class="api-description">Retrieve list of all banned accounts with details.</p>
+                <div class="api-url" id="url-banned-accounts">
+                    /AntiCheat/BannedAccounts
+                    <button class="copy-button" onclick="copyToClipboard('url-banned-accounts')">Copy</button>
+                </div>
+                <div class="api-example">
+// GET Request
+fetch('http://localhost:8000/AntiCheat/BannedAccounts')
+  .then(response => response.json())
+  .then(data => {
+      console.log(`Total banned: ${data.count}`);
+      data.accounts.forEach(account => {
+          console.log(`${account.playerName} - ${account.reason}`);
+      });
+  });
+                </div>
+            </div>
+
+            <div class="api-endpoint">
+                <h3>
+                    <span class="api-method method-get">GET</span>
+                    <span class="api-method method-post">POST</span>
+                    Get Allowed Accounts
+                </h3>
+                <p class="api-description">Retrieve list of all whitelisted/allowed accounts.</p>
+                <div class="api-url" id="url-allowed-accounts">
+                    /AntiCheat/AllowedAccounts
+                    <button class="copy-button" onclick="copyToClipboard('url-allowed-accounts')">Copy</button>
+                </div>
+                <div class="api-example">
+// GET Request
+fetch('http://localhost:8000/AntiCheat/AllowedAccounts')
+  .then(response => response.json())
+  .then(data => {
+      console.log(`Total allowed: ${data.count}`);
+      data.accounts.forEach(account => {
+          console.log(`${account.playerName} (${account.playerId})`);
+      });
+  });
+                </div>
+            </div>
+
+            <div class="api-endpoint">
+                <h3>
+                    <span class="api-method method-post">POST</span>
+                    Console Command
+                </h3>
+                <p class="api-description">Execute remote console commands (ban, kick, config, etc.).</p>
+                <div class="api-url" id="url-console">
+                    /api/console/command
+                    <button class="copy-button" onclick="copyToClipboard('url-console')">Copy</button>
+                </div>
+                <div class="api-example">
+// Ban a player
+fetch('http://localhost:8000/api/console/command', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+        command: 'ban',
+        args: {
+            playerId: '12345',
+            playerName: 'PlayerName',
+            reason: 'Cheating detected',
+            duration: 336
+        }
+    })
+});
+
+// Kick a player (0 hour ban)
+fetch('http://localhost:8000/api/console/command', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+        command: 'kick',
+        args: {
+            playerId: '12345',
+            playerName: 'PlayerName',
+            reason: 'Kicked from server'
+        }
+    })
+});
+
+// Update config
+fetch('http://localhost:8000/api/console/command', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+        command: 'config',
+        args: {
+            key: 'BAN_DURATION_HOURS',
+            value: '720'
+        }
+    })
+});
+                </div>
+            </div>
+
+            <div class="api-endpoint">
+                <h3>
+                    <span class="api-method method-post">POST</span>
+                    Update Configuration
+                </h3>
+                <p class="api-description">Update AntiCheat configuration settings from web UI.</p>
+                <div class="api-url" id="url-update-config">
+                    /api/config/update
+                    <button class="copy-button" onclick="copyToClipboard('url-update-config')">Copy</button>
+                </div>
+                <div class="api-example">
+fetch('http://localhost:8000/api/config/update', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+        DEBUG_MODE: true,
+        BAN_DURATION_HOURS: 336,
+        AUTO_BAN_ENABLED: true,
+        VPN_DETECTION_ENABLED: true,
+        ALLOWED_DEVICES: "quest2, oculus quest"
+    })
+})
+.then(response => response.json())
+.then(data => console.log(data));
+                </div>
+            </div>
+
+            <div class="info-box" style="margin-top: 15px;">
+                <h4 style="color: var(--accent-primary); margin-bottom: 6px; font-size: 0.95em;">Response Format</h4>
+                <p style="margin-bottom: 6px;">All endpoints return JSON with the following structure:</p>
+                <div class="api-example" style="margin-top: 6px;">
+{
+    "ResultCode": 0,  // 0 = success, 1 = error
+    "Message": "Operation completed successfully",
+    // ... additional data based on endpoint
+}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Load config on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadConfig();
+            loadBannedAccounts();
+            loadAllowedAccounts();
+            updateCloudScriptCode();
+        });
+
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('.tab-button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            document.getElementById(tabName + '-tab').classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        async function loadConfig() {
+            try {
+                const response = await fetch('/AntiCheat/Config');
+                const data = await response.json();
+                
+                if (data.ResultCode === 0 && data.config) {
+                    const config = data.config;
+                    document.getElementById('debug-mode').checked = config.DEBUG_MODE || false;
+                    document.getElementById('auto-ban').checked = config.AUTO_BAN_ENABLED !== false;
+                    document.getElementById('enable-whitelist').checked = config.ENABLE_WHITELIST || false;
+                    document.getElementById('enable-blacklist').checked = config.ENABLE_BLACKLIST !== false;
+                    document.getElementById('vpn-detection').checked = config.VPN_DETECTION_ENABLED !== false;
+                    document.getElementById('device-detection').checked = config.DEVICE_DETECTION_ENABLED !== false;
+                    document.getElementById('player-detection').checked = config.PLAYER_DETECTION_ENABLED !== false;
+                    document.getElementById('ban-duration').value = config.BAN_DURATION_HOURS || 336;
+                    document.getElementById('kick-duration').value = config.KICK_DURATION_HOURS || 0;
+                    document.getElementById('max-login-attempts').value = config.MAX_LOGIN_ATTEMPTS || 5;
+                    document.getElementById('login-cooldown').value = config.LOGIN_COOLDOWN_SECONDS || 300;
+                    document.getElementById('ban-webhook').value = config.BAN_WEBHOOK_URL || '';
+                    document.getElementById('allowed-webhook').value = config.ALLOWED_WEBHOOK_URL || '';
+                    
+                    // Load allowed devices into checkboxes
+                    const allowedDevices = Array.isArray(config.ALLOWED_DEVICES) 
+                        ? config.ALLOWED_DEVICES 
+                        : (config.ALLOWED_DEVICES ? config.ALLOWED_DEVICES.split(',').map(d => d.trim()) : []);
+                    
+                    // Uncheck all device checkboxes first
+                    document.querySelectorAll('input[name="device"]').forEach(cb => {
+                        cb.checked = false;
+                    });
+                    
+                    // Separate predefined devices from custom devices
+                    const predefinedDevices = ['quest2', 'oculus quest', 'quest3', 'quest pro', 'vive', 'index'];
+                    const customDevices = [];
+                    const checkedPredefined = [];
+                    
+                    allowedDevices.forEach(device => {
+                        if (predefinedDevices.includes(device.toLowerCase())) {
+                            checkedPredefined.push(device);
+                            const checkbox = document.querySelector(`input[name="device"][value="${device}"]`);
+                            if (checkbox) {
+                                checkbox.checked = true;
+                            }
+                        } else {
+                            customDevices.push(device);
+                        }
+                    });
+                    
+                    // Load custom devices into textarea
+                    document.getElementById('custom-devices').value = customDevices.join('\n');
+                }
+            } catch (error) {
+                showMessage('error', 'Failed to load configuration: ' + error.message);
+            }
+        }
+
+        document.getElementById('config-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const formData = {};
+            const form = e.target;
+            const formElements = form.elements;
+            
+            for (let element of formElements) {
+                if (element.name) {
+                    if (element.type === 'checkbox') {
+                        if (element.name === 'device') {
+                            // Handle device checkboxes separately
+                            if (!formData.ALLOWED_DEVICES) {
+                                formData.ALLOWED_DEVICES = [];
+                            }
+                            if (element.checked) {
+                                formData.ALLOWED_DEVICES.push(element.value);
+                            }
+                        } else {
+                            formData[element.name] = element.checked;
+                        }
+                    } else if (element.value && element.name !== 'ALLOWED_DEVICES') {
+                        if (element.type === 'number') {
+                            formData[element.name] = parseInt(element.value) || 0;
+                        } else {
+                            formData[element.name] = element.value;
+                        }
+                    }
+                }
+            }
+            
+            // Handle custom devices from textarea
+            const customDevicesText = document.getElementById('custom-devices').value;
+            if (customDevicesText.trim()) {
+                if (!formData.ALLOWED_DEVICES) {
+                    formData.ALLOWED_DEVICES = [];
+                }
+                const customDevices = customDevicesText.split('\n')
+                    .map(d => d.trim())
+                    .filter(d => d.length > 0);
+                formData.ALLOWED_DEVICES = formData.ALLOWED_DEVICES.concat(customDevices);
+            }
+            
+            // Ensure ALLOWED_DEVICES is set (even if empty)
+            if (!formData.ALLOWED_DEVICES) {
+                formData.ALLOWED_DEVICES = [];
+            }
+
+            try {
+                const response = await fetch('/api/config/update', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                const data = await response.json();
+                
+                if (data.success) {
+                    showMessage('success', 'Configuration saved successfully!');
+                    setTimeout(loadConfig, 500);
+                } else {
+                    showMessage('error', 'Failed to save configuration: ' + (data.message || 'Unknown error'));
+                }
+            } catch (error) {
+                showMessage('error', 'Failed to save configuration: ' + error.message);
+            }
+        });
+
+        async function loadBannedAccounts() {
+            try {
+                const response = await fetch('/AntiCheat/BannedAccounts');
+                const data = await response.json();
+                
+                const tbody = document.getElementById('banned-accounts-body');
+                tbody.innerHTML = '';
+                
+                if (data.ResultCode === 0 && data.accounts && data.accounts.length > 0) {
+                    data.accounts.forEach(account => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${escapeHtml(account.playerName)}</td>
+                            <td><code>${escapeHtml(account.playerId)}</code></td>
+                            <td><code>${escapeHtml(account.hwid)}</code></td>
+                            <td>${escapeHtml(account.ip)}</td>
+                            <td>${escapeHtml(account.reason)}</td>
+                            <td><span class="badge ${account.banDuration === '0s' ? 'badge-warning' : 'badge-danger'}">${escapeHtml(account.banDuration)}</span></td>
+                        `;
+                        tbody.appendChild(row);
+                    });
+                } else {
+                    tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 10px;">No banned accounts found</td></tr>';
+                }
+            } catch (error) {
+                document.getElementById('banned-message').textContent = 'Failed to load banned accounts: ' + error.message;
+                document.getElementById('banned-message').classList.add('error');
+                document.getElementById('banned-message').style.display = 'block';
+            }
+        }
+
+        let allAccountsList = [];
+        let allowedAccountsSet = new Set();
+
+        async function loadAllowedAccounts() {
+            try {
+                // Load allowed accounts
+                const allowedResponse = await fetch('/AntiCheat/AllowedAccounts');
+                const allowedData = await allowedResponse.json();
+                
+                // Load banned accounts to get all accounts
+                const bannedResponse = await fetch('/AntiCheat/BannedAccounts');
+                const bannedData = await bannedResponse.json();
+                
+                const allowedTbody = document.getElementById('allowed-accounts-body');
+                const allTbody = document.getElementById('all-accounts-body');
+                
+                // Clear and reset
+                allowedTbody.innerHTML = '';
+                allTbody.innerHTML = '';
+                allowedAccountsSet.clear();
+                allAccountsList = [];
+                
+                // Build allowed accounts set
+                if (allowedData.ResultCode === 0 && allowedData.accounts) {
+                    allowedData.accounts.forEach(account => {
+                        allowedAccountsSet.add(account.playerId);
+                    });
+                }
+                
+                // Display currently allowed accounts
+                if (allowedData.ResultCode === 0 && allowedData.accounts && allowedData.accounts.length > 0) {
+                    allowedData.accounts.forEach(account => {
+                        const row = document.createElement('tr');
+                        const addedAt = account.addedAt ? new Date(account.addedAt).toLocaleString() : 'Unknown';
+                        row.innerHTML = `
+                            <td style="text-align: center;">
+                                <input type="checkbox" class="allowed-checkbox" data-player-id="${escapeHtml(account.playerId)}" checked>
+                            </td>
+                            <td>${escapeHtml(account.playerName)}</td>
+                            <td><code>${escapeHtml(account.playerId)}</code></td>
+                            <td>${escapeHtml(addedAt)}</td>
+                        `;
+                        allowedTbody.appendChild(row);
+                    });
+                } else {
+                    allowedTbody.innerHTML = '<tr><td colspan="4" style="text-align: center; padding: 10px;">No allowed accounts found</td></tr>';
+                }
+                
+                // Build all accounts list from banned accounts
+                if (bannedData.ResultCode === 0 && bannedData.accounts) {
+                    const accountMap = new Map();
+                    
+                    // Add all accounts from banned list
+                    bannedData.accounts.forEach(account => {
+                        if (!accountMap.has(account.playerId)) {
+                            accountMap.set(account.playerId, {
+                                playerId: account.playerId,
+                                playerName: account.playerName || 'Unknown',
+                                hwid: account.hwid || 'Unknown',
+                                ip: account.ip || 'Unknown'
+                            });
+                        }
+                    });
+                    
+                    // Add allowed accounts that might not be in banned list
+                    if (allowedData.ResultCode === 0 && allowedData.accounts) {
+                        allowedData.accounts.forEach(account => {
+                            if (!accountMap.has(account.playerId)) {
+                                accountMap.set(account.playerId, {
+                                    playerId: account.playerId,
+                                    playerName: account.playerName || 'Unknown',
+                                    hwid: 'N/A',
+                                    ip: 'N/A'
+                                });
+                            }
+                        });
+                    }
+                    
+                    allAccountsList = Array.from(accountMap.values());
+                    
+                    // Display all accounts with checkboxes
+                    if (allAccountsList.length > 0) {
+                        allAccountsList.forEach(account => {
+                            const row = document.createElement('tr');
+                            const isAllowed = allowedAccountsSet.has(account.playerId);
+                            const statusBadge = isAllowed 
+                                ? '<span class="badge badge-success">Allowed</span>' 
+                                : '<span class="badge badge-danger">Not Allowed</span>';
+                            
+                            row.innerHTML = `
+                                <td style="text-align: center;">
+                                    <input type="checkbox" class="account-checkbox" data-player-id="${escapeHtml(account.playerId)}" data-player-name="${escapeHtml(account.playerName)}" ${isAllowed ? 'checked' : ''}>
+                                </td>
+                                <td>${escapeHtml(account.playerName)}</td>
+                                <td><code>${escapeHtml(account.playerId)}</code></td>
+                                <td><code>${escapeHtml(account.hwid)}</code></td>
+                                <td>${escapeHtml(account.ip)}</td>
+                                <td>${statusBadge}</td>
+                            `;
+                            allTbody.appendChild(row);
+                        });
+                    } else {
+                        allTbody.innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 10px;">No accounts found</td></tr>';
+                    }
+                } else {
+                    allTbody.innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 10px;">No accounts found</td></tr>';
+                }
+            } catch (error) {
+                document.getElementById('allowed-message').textContent = 'Failed to load accounts: ' + error.message;
+                document.getElementById('allowed-message').classList.add('error');
+                document.getElementById('allowed-message').style.display = 'block';
+            }
+        }
+
+        function selectAll() {
+            document.querySelectorAll('.account-checkbox').forEach(cb => cb.checked = true);
+        }
+
+        function deselectAll() {
+            document.querySelectorAll('.account-checkbox').forEach(cb => cb.checked = false);
+        }
+
+        async function addSelectedAccounts() {
+            const checkboxes = document.querySelectorAll('.account-checkbox:checked');
+            const toAdd = [];
+            
+            // Only add accounts that aren't already allowed
+            checkboxes.forEach(checkbox => {
+                const playerId = checkbox.dataset.playerId;
+                if (!allowedAccountsSet.has(playerId)) {
+                    toAdd.push({
+                        playerId: playerId,
+                        playerName: checkbox.dataset.playerName || 'Unknown'
+                    });
+                }
+            });
+            
+            if (toAdd.length === 0) {
+                showAllowedMessage('warning', 'Please select accounts that are not already allowed.');
+                return;
+            }
+            
+            let successCount = 0;
+            let failCount = 0;
+            
+            for (const account of toAdd) {
+                try {
+                    const response = await fetch('/api/console/command', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            command: 'allow',
+                            args: { playerId: account.playerId, playerName: account.playerName }
+                        })
+                    });
+                    
+                    const data = await response.json();
+                    if (data.success) {
+                        successCount++;
+                    } else {
+                        failCount++;
+                    }
+                } catch (error) {
+                    failCount++;
+                }
+            }
+            
+            showAllowedMessage('success', `Added ${successCount} account(s)${failCount > 0 ? `. ${failCount} failed.` : '.'}`);
+            loadAllowedAccounts();
+        }
+
+        async function removeSelectedAccounts() {
+            const toRemove = new Set();
+            
+            // Get unchecked accounts from "Currently Allowed" table (user unchecks to remove)
+            document.querySelectorAll('.allowed-checkbox:not(:checked)').forEach(cb => {
+                toRemove.add(cb.dataset.playerId);
+            });
+            
+            // Get checked accounts from "All Accounts" table that are currently allowed (user checks to remove)
+            document.querySelectorAll('.account-checkbox:checked').forEach(cb => {
+                if (allowedAccountsSet.has(cb.dataset.playerId)) {
+                    toRemove.add(cb.dataset.playerId);
+                }
+            });
+            
+            if (toRemove.size === 0) {
+                showAllowedMessage('warning', 'Please uncheck accounts in "Currently Allowed" or check accounts in "All Accounts" to remove them.');
+                return;
+            }
+            
+            if (!confirm(`Remove ${toRemove.size} account(s) from allowed list?`)) return;
+            
+            let successCount = 0;
+            let failCount = 0;
+            
+            for (const playerId of toRemove) {
+                try {
+                    const response = await fetch('/api/console/command', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            command: 'disallow',
+                            args: { playerId: playerId }
+                        })
+                    });
+                    
+                    const data = await response.json();
+                    if (data.success) {
+                        successCount++;
+                    } else {
+                        failCount++;
+                    }
+                } catch (error) {
+                    failCount++;
+                }
+            }
+            
+            showAllowedMessage('success', `Removed ${successCount} account(s)${failCount > 0 ? `. ${failCount} failed.` : '.'}`);
+            loadAllowedAccounts();
+        }
+
+        function showAllowedMessage(type, message) {
+            const messageEl = document.getElementById('allowed-message');
+            messageEl.textContent = message;
+            messageEl.className = 'message ' + type;
+            messageEl.style.display = 'block';
+            
+            setTimeout(() => {
+                messageEl.style.display = 'none';
+            }, 5000);
+        }
+
+
+        function handleConsoleKeyPress(event) {
+            if (event.key === 'Enter') {
+                executeConsoleCommand();
+            }
+        }
+
+        async function executeConsoleCommand() {
+            const input = document.getElementById('console-input');
+            const command = input.value.trim();
+            if (!command) return;
+
+            addConsoleOutput('info', `> ${command}`);
+            input.value = '';
+
+            if (command === 'help') {
+                addConsoleOutput('info', 'Available commands: ban, kick, unban, allow, disallow, config');
+                return;
+            }
+
+            const parts = command.split(' ');
+            const cmd = parts[0].toLowerCase();
+            const args = {};
+
+            try {
+                if (cmd === 'ban') {
+                    if (parts.length < 2) {
+                        addConsoleOutput('error', 'Usage: ban <playerId> [playerName] [reason] [duration]');
+                        return;
+                    }
+                    args.playerId = parts[1];
+                    args.playerName = parts[2] || 'Unknown';
+                    args.reason = parts.slice(3, -1).join(' ') || 'Manual ban from console';
+                    args.duration = parseInt(parts[parts.length - 1]) || null;
+                } else if (cmd === 'kick') {
+                    if (parts.length < 2) {
+                        addConsoleOutput('error', 'Usage: kick <playerId> [playerName] [reason]');
+                        return;
+                    }
+                    args.playerId = parts[1];
+                    args.playerName = parts[2] || 'Unknown';
+                    args.reason = parts.slice(3).join(' ') || 'Kicked from console';
+                } else if (cmd === 'unban') {
+                    if (parts.length < 2) {
+                        addConsoleOutput('error', 'Usage: unban <playerId>');
+                        return;
+                    }
+                    args.playerId = parts[1];
+                } else if (cmd === 'allow') {
+                    if (parts.length < 2) {
+                        addConsoleOutput('error', 'Usage: allow <playerId> [playerName]');
+                        return;
+                    }
+                    args.playerId = parts[1];
+                    args.playerName = parts[2] || 'Unknown';
+                } else if (cmd === 'disallow') {
+                    if (parts.length < 2) {
+                        addConsoleOutput('error', 'Usage: disallow <playerId>');
+                        return;
+                    }
+                    args.playerId = parts[1];
+                } else if (cmd === 'config') {
+                    if (parts.length < 3) {
+                        addConsoleOutput('error', 'Usage: config <key> <value>');
+                        return;
+                    }
+                    args.key = parts[1];
+                    args.value = parts.slice(2).join(' ');
+                } else {
+                    addConsoleOutput('error', `Unknown command: ${cmd}. Type 'help' for available commands.`);
+                    return;
+                }
+
+                const response = await fetch('/api/console/command', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ command: cmd, args: args })
+                });
+
+                const data = await response.json();
+                if (data.success) {
+                    addConsoleOutput('success', data.message);
+                    if (cmd === 'ban' || cmd === 'kick' || cmd === 'unban') {
+                        loadBannedAccounts();
+                    } else if (cmd === 'allow' || cmd === 'disallow') {
+                        loadAllowedAccounts();
+                    } else if (cmd === 'config') {
+                        loadConfig();
+                    }
+                } else {
+                    addConsoleOutput('error', data.message);
+                }
+            } catch (error) {
+                addConsoleOutput('error', 'Error: ' + error.message);
+            }
+        }
+
+        function addConsoleOutput(type, message) {
+            const output = document.getElementById('console-output');
+            const colors = {
+                success: '#00ff00',
+                error: '#ff4444',
+                info: '#94a3b8',
+                warning: '#ffaa00'
+            };
+            const color = colors[type] || colors.info;
+            const div = document.createElement('div');
+            div.style.color = color;
+            div.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+            output.appendChild(div);
+            output.scrollTop = output.scrollHeight;
+        }
+
+        function showMessage(type, message) {
+            const messageEl = document.getElementById('message');
+            messageEl.textContent = message;
+            messageEl.className = 'message ' + type;
+            messageEl.style.display = 'block';
+            
+            setTimeout(() => {
+                messageEl.style.display = 'none';
+            }, 5000);
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function copyToClipboard(elementId) {
+            const element = document.getElementById(elementId);
+            // Get text before the button
+            const text = element.childNodes[0].textContent.trim();
+            const baseUrl = window.location.origin;
+            const fullUrl = baseUrl + text;
+            
+            navigator.clipboard.writeText(fullUrl).then(() => {
+                const button = element.querySelector('.copy-button');
+                const originalText = button.textContent;
+                button.textContent = 'Copied!';
+                button.style.background = 'var(--success)';
+                setTimeout(() => {
+                    button.textContent = originalText;
+                    button.style.background = '';
+                }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy:', err);
+            });
+        }
+
+        function getApiUrl() {
+            const input = document.getElementById('api-url-input');
+            const url = input ? input.value.trim() : '';
+            if (url) {
+                return url;
+            }
+            // Default to current origin
+            return window.location.origin;
+        }
+
+        function updateCloudScriptCode() {
+            const apiUrl = getApiUrl();
+            
+            // Update input field if empty
+            const input = document.getElementById('api-url-input');
+            if (input && !input.value.trim()) {
+                input.value = window.location.origin;
+            }
+            
+            // Device Verification Handler
+            const deviceCode = "handlers.VerifyQuestDevice = function(args, context) {\n" +
+    "    try {\n" +
+    "        const API_URL = \"" + apiUrl + "\";\n" +
+    "        const currentPlayerId = currentPlayerId || \"UNKNOWN_PLAYER\";\n" +
+    "        \n" +
+    "        // Prepare the request payload\n" +
+    "        const psEvent = context.playStreamEvent || {};\n" +
+    "        const deviceInfo = psEvent.DeviceInfo || {};\n" +
+    "        \n" +
+    "        const requestPayload = {\n" +
+    "            args: {\n" +
+    "                playerId: currentPlayerId,\n" +
+    "                deviceInfo: deviceInfo\n" +
+    "            },\n" +
+    "            context: {\n" +
+    "                currentPlayerId: currentPlayerId,\n" +
+    "                playStreamEvent: psEvent\n" +
+    "            }\n" +
+    "        };\n" +
+    "        \n" +
+    "        // Call the Python API endpoint\n" +
+    "        const response = http.request(\n" +
+    "            API_URL + \"/AntiCheat/DetectHeadset\",\n" +
+    "            \"POST\",\n" +
+    "            JSON.stringify(requestPayload),\n" +
+    "            \"application/json\",\n" +
+    "            null\n" +
+    "        );\n" +
+    "        \n" +
+    "        if (!response || response.code !== 200) {\n" +
+    "            log.error(\"⚠️ API request failed: \" + (response ? response.code : \"No response\"));\n" +
+    "            return { ResultCode: 1, Message: \"Failed to verify device\" };\n" +
+    "        }\n" +
+    "        \n" +
+    "        const result = JSON.parse(response.body);\n" +
+    "        \n" +
+    "        // Check if ban is required\n" +
+    "        if (result.shouldBan) {\n" +
+    "            server.BanUsers({\n" +
+    "                Bans: [{\n" +
+    "                    PlayFabId: currentPlayerId,\n" +
+    "                    DurationInHours: result.banDurationHours || 336,\n" +
+    "                    Reason: result.reason || \"Device verification failed\"\n" +
+    "                }]\n" +
+    "            });\n" +
+    "            log.info(\"[BANNED] \" + currentPlayerId + \" - \" + result.reason);\n" +
+    "        }\n" +
+    "        \n" +
+    "        return result;\n" +
+    "        \n" +
+    "    } catch (e) {\n" +
+    "        log.error(\"❌ Error in VerifyQuestDevice: \" + JSON.stringify(e));\n" +
+    "        return { ResultCode: 1, Message: \"Internal error during device check.\" };\n" +
+    "    }\n" +
+    "};";
+            
+            // Player Detection Handler
+            const playerCode = "handlers.DetectPlayerCheating = function(args, context) {\n" +
+    "    try {\n" +
+    "        const API_URL = \"" + apiUrl + "\";\n" +
+    "        const currentPlayerId = currentPlayerId || \"UNKNOWN_PLAYER\";\n" +
+    "        \n" +
+    "        const requestPayload = {\n" +
+    "            args: {\n" +
+    "                playerId: currentPlayerId,\n" +
+    "                playerData: args.playerData || {}\n" +
+    "            },\n" +
+    "            context: {\n" +
+    "                currentPlayerId: currentPlayerId,\n" +
+    "                playStreamEvent: context.playStreamEvent || {}\n" +
+    "            }\n" +
+    "        };\n" +
+    "        \n" +
+    "        const response = http.request(\n" +
+    "            API_URL + \"/AntiCheat/DetectPlayer\",\n" +
+    "            \"POST\",\n" +
+    "            JSON.stringify(requestPayload),\n" +
+    "            \"application/json\",\n" +
+    "            null\n" +
+    "        );\n" +
+    "        \n" +
+    "        if (!response || response.code !== 200) {\n" +
+    "            return { ResultCode: 1, Message: \"Failed to detect player\" };\n" +
+    "        }\n" +
+    "        \n" +
+    "        const result = JSON.parse(response.body);\n" +
+    "        \n" +
+    "        if (result.shouldBan) {\n" +
+    "            server.BanUsers({\n" +
+    "                Bans: [{\n" +
+    "                    PlayFabId: currentPlayerId,\n" +
+    "                    DurationInHours: result.banDurationHours || 336,\n" +
+    "                    Reason: result.reason || \"Cheating detected\"\n" +
+    "                }]\n" +
+    "            });\n" +
+    "        }\n" +
+    "        \n" +
+    "        return result;\n" +
+    "        \n" +
+    "    } catch (e) {\n" +
+    "        log.error(\"❌ Error in DetectPlayerCheating: \" + JSON.stringify(e));\n" +
+    "        return { ResultCode: 1, Message: \"Internal error during player detection.\" };\n" +
+    "    }\n" +
+    "};";
+            
+            // VPN Detection Handler
+            const vpnCode = "handlers.DetectVpn = function(args, context) {\n" +
+    "    try {\n" +
+    "        const API_URL = \"" + apiUrl + "\";\n" +
+    "        const currentPlayerId = currentPlayerId || \"UNKNOWN_PLAYER\";\n" +
+    "        \n" +
+    "        const requestPayload = {\n" +
+    "            args: {\n" +
+    "                playerId: currentPlayerId,\n" +
+    "                ipAddress: args.ipAddress || \"\",\n" +
+    "                networkData: args.networkData || {}\n" +
+    "            },\n" +
+    "            context: {\n" +
+    "                currentPlayerId: currentPlayerId,\n" +
+    "                playStreamEvent: context.playStreamEvent || {}\n" +
+    "            }\n" +
+    "        };\n" +
+    "        \n" +
+    "        const response = http.request(\n" +
+    "            API_URL + \"/AntiCheat/DetectVpn\",\n" +
+    "            \"POST\",\n" +
+    "            JSON.stringify(requestPayload),\n" +
+    "            \"application/json\",\n" +
+    "            null\n" +
+    "        );\n" +
+    "        \n" +
+    "        if (!response || response.code !== 200) {\n" +
+    "            return { ResultCode: 1, Message: \"Failed to detect VPN\" };\n" +
+    "        }\n" +
+    "        \n" +
+    "        const result = JSON.parse(response.body);\n" +
+    "        \n" +
+    "        if (result.shouldBan) {\n" +
+    "            server.BanUsers({\n" +
+    "                Bans: [{\n" +
+    "                    PlayFabId: currentPlayerId,\n" +
+    "                    DurationInHours: result.banDurationHours || 336,\n" +
+    "                    Reason: result.reason || \"VPN/Proxy detected\"\n" +
+    "                }]\n" +
+    "            });\n" +
+    "        }\n" +
+    "        \n" +
+    "        return result;\n" +
+    "        \n" +
+    "    } catch (e) {\n" +
+    "        log.error(\"❌ Error in DetectVpn: \" + JSON.stringify(e));\n" +
+    "        return { ResultCode: 1, Message: \"Internal error during VPN detection.\" };\n" +
+    "    }\n" +
+    "};";
+            
+            // Complete file
+            const allCode = "// AntiCheat CloudScript Handlers\n" +
+    "// Generated automatically - API URL: " + apiUrl + "\n" +
+    "// Copy this entire file to your PlayFab CloudScript\n" +
+    "\n" +
+    deviceCode + "\n\n" +
+    playerCode + "\n\n" +
+    vpnCode;
+            
+            // Update the display (using textContent preserves newlines in <pre> tags)
+            document.getElementById('cloudscript-device').textContent = deviceCode;
+            document.getElementById('cloudscript-player').textContent = playerCode;
+            document.getElementById('cloudscript-vpn').textContent = vpnCode;
+            document.getElementById('cloudscript-all').textContent = allCode;
+        }
+
+        function copyCloudScript(type) {
+            let code = '';
+            let message = '';
+            
+            switch(type) {
+                case 'device':
+                    code = document.getElementById('cloudscript-device').textContent;
+                    message = 'Device verification handler copied!';
+                    break;
+                case 'player':
+                    code = document.getElementById('cloudscript-player').textContent;
+                    message = 'Player detection handler copied!';
+                    break;
+                case 'vpn':
+                    code = document.getElementById('cloudscript-vpn').textContent;
+                    message = 'VPN detection handler copied!';
+                    break;
+                case 'all':
+                    code = document.getElementById('cloudscript-all').textContent;
+                    message = 'Complete CloudScript code copied!';
+                    break;
+            }
+            
+            navigator.clipboard.writeText(code).then(() => {
+                showMessage('success', message);
+            }).catch(err => {
+                showMessage('error', 'Failed to copy: ' + err.message);
+            });
+        }
+    </script>
+</body>
+</html>
