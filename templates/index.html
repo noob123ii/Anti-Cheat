@@ -542,6 +542,97 @@
         .inline-style-button {
             margin-top: 8px;
         }
+
+        .device-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 10px;
+            margin-top: 8px;
+        }
+
+        .device-label {
+            margin: 0;
+            font-weight: normal;
+            cursor: pointer;
+        }
+
+        .form-group-margin {
+            margin-top: 12px;
+        }
+
+        .info-box-margin {
+            margin-top: 8px;
+        }
+
+        .h3-style {
+            color: var(--accent-primary);
+            margin-bottom: 8px;
+            font-size: 1em;
+        }
+
+        .info-box-bottom {
+            margin-bottom: 10px;
+        }
+
+        .th-width {
+            width: 50px;
+        }
+
+        .cloudscript-p {
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+            font-size: 0.9em;
+        }
+
+        .form-group-bottom {
+            margin-bottom: 12px;
+        }
+
+        .api-endpoint-margin {
+            margin-bottom: 12px;
+        }
+
+        .h3-flex {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .pre-scroll {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .pre-scroll-large {
+            max-height: 350px;
+            overflow-y: auto;
+        }
+
+        .api-url-flex {
+            display: flex;
+            gap: 6px;
+        }
+
+        .input-flex {
+            flex: 1;
+        }
+
+        .console-green {
+            color: #00ff00;
+        }
+
+        .console-gray {
+            color: #94a3b8;
+        }
+
+        .api-p {
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+        }
+
+        .accent-code {
+            color: var(--accent-primary);
+        }
     </style>
 </head>
 <body>
@@ -664,36 +755,36 @@
                 <h2 class="section-title">Device Settings</h2>
                 <div class="form-group">
                     <label>Allowed Devices</label>
-                    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 10px; margin-top: 8px;">
+                    <div class="device-grid">
                         <div class="checkbox-group">
                             <input type="checkbox" id="device-quest2" name="device" value="quest2">
-                            <label for="device-quest2" style="margin: 0; font-weight: normal; cursor: pointer;">Quest 2</label>
+                            <label for="device-quest2" class="device-label">Quest 2</label>
                         </div>
                         <div class="checkbox-group">
                             <input type="checkbox" id="device-oculus-quest" name="device" value="oculus quest">
-                            <label for="device-oculus-quest" style="margin: 0; font-weight: normal; cursor: pointer;">Oculus Quest</label>
+                            <label for="device-oculus-quest" class="device-label">Oculus Quest</label>
                         </div>
                         <div class="checkbox-group">
                             <input type="checkbox" id="device-quest-3" name="device" value="quest3">
-                            <label for="device-quest-3" style="margin: 0; font-weight: normal; cursor: pointer;">Quest 3</label>
+                            <label for="device-quest-3" class="device-label">Quest 3</label>
                         </div>
                         <div class="checkbox-group">
                             <input type="checkbox" id="device-quest-pro" name="device" value="quest pro">
-                            <label for="device-quest-pro" style="margin: 0; font-weight: normal; cursor: pointer;">Quest Pro</label>
+                            <label for="device-quest-pro" class="device-label">Quest Pro</label>
                         </div>
                         <div class="checkbox-group">
                             <input type="checkbox" id="device-vive" name="device" value="vive">
-                            <label for="device-vive" style="margin: 0; font-weight: normal; cursor: pointer;">HTC Vive</label>
+                            <label for="device-vive" class="device-label">HTC Vive</label>
                         </div>
                         <div class="checkbox-group">
                             <input type="checkbox" id="device-index" name="device" value="index">
-                            <label for="device-index" style="margin: 0; font-weight: normal; cursor: pointer;">Valve Index</label>
+                            <label for="device-index" class="device-label">Valve Index</label>
                         </div>
                     </div>
-                    <div class="form-group" style="margin-top: 12px;">
+                    <div class="form-group form-group-margin">
                         <label for="custom-devices">Custom Devices (one per line)</label>
                         <textarea id="custom-devices" name="custom-devices" rows="3" placeholder="Enter custom device names, one per line&#10;Example:&#10;custom headset&#10;another device"></textarea>
-                        <div class="info-box" style="margin-top: 8px;">
+                        <div class="info-box info-box-margin">
                             <p><strong>Note:</strong> Check the devices above that should be allowed, or add custom device names (one per line) in the text area.</p>
                         </div>
                     </div>
@@ -739,13 +830,12 @@
                 <button type="button" class="button button-warning" onclick="deselectAll()">☐ Deselect All</button>
             </div>
             <div id="allowed-message" class="message"></div>
-            
             <h3 class="inline-style-h3">Currently Allowed Accounts</h3>
             <div class="table-container inline-style-table">
                 <table>
                     <thead>
                         <tr>
-                            <th scope="col" style="width: 50px;">✓</th>
+                            <th scope="col" class="th-width">✓</th>
                             <th scope="col">Player Name</th>
                             <th scope="col">Player ID</th>
                             <th scope="col">Added At</th>
@@ -759,15 +849,15 @@
                 </table>
             </div>
 
-            <h3 style="color: var(--accent-primary); margin-bottom: 8px; font-size: 1em;">All Accounts (from Banned List)</h3>
-            <div class="info-box" style="margin-bottom: 10px;">
+            <h3 class="h3-style">All Accounts (from Banned List)</h3>
+            <div class="info-box info-box-bottom">
                 <p><strong>Instructions:</strong> Check boxes to add/remove accounts. Use "Select All" for bulk operations.</p>
             </div>
             <div class="table-container">
                 <table>
                     <thead>
                         <tr>
-                            <th scope="col" style="width: 50px;">☑</th>
+                            <th scope="col" class="th-width">☑</th>
                             <th scope="col">Player Name</th>
                             <th scope="col">Player ID</th>
                             <th scope="col">HWID</th>
@@ -786,55 +876,54 @@
 
         <div id="cloudscript-tab" class="tab-content">
             <h2 class="section-title">CloudScript Code Generator</h2>
-            <p style="color: var(--text-secondary); margin-bottom: 12px; font-size: 0.9em;">
+            <p class="cloudscript-p">
                 Copy and paste these CloudScript handlers into your PlayFab CloudScript. The API URL will be automatically set to your current server.
             </p>
-            
-            <div class="form-group" style="margin-bottom: 12px;">
+            <div class="form-group form-group-bottom">
                 <label for="api-url-input">API Server URL</label>
-                <div style="display: flex; gap: 6px;">
-                    <input type="text" id="api-url-input" class="form-group input" style="flex: 1;" value="" onchange="updateCloudScriptCode()" oninput="updateCloudScriptCode()">
+                <div class="api-url-flex">
+                    <input type="text" id="api-url-input" class="form-group input input-flex" value="" onchange="updateCloudScriptCode()" oninput="updateCloudScriptCode()">
                     <button type="button" class="button button-primary" onclick="copyCloudScript('all')">📋 Copy All</button>
                 </div>
-                <div class="info-box" style="margin-top: 6px;">
+                <div class="info-box info-box-margin">
                     <p><strong>Note:</strong> Change this to your deployed server URL (e.g., https://your-domain.com) when deploying to production.</p>
                 </div>
             </div>
 
-            <div class="api-endpoint" style="margin-bottom: 12px;">
-                <h3 style="display: flex; justify-content: space-between; align-items: center;">
+            <div class="api-endpoint api-endpoint-margin">
+                <h3 class="h3-flex">
                     <span>Device Verification Handler</span>
                     <button type="button" class="copy-button" onclick="copyCloudScript('device')">Copy</button>
                 </h3>
                 <p class="api-description">Verify Quest device and detect unauthorized devices. This replaces your VerifyQuestDevice handler.</p>
-                <pre class="api-example" id="cloudscript-device" style="max-height: 300px; overflow-y: auto;"></pre>
+                <pre class="api-example pre-scroll" id="cloudscript-device"></pre>
             </div>
 
-            <div class="api-endpoint" style="margin-bottom: 12px;">
-                <h3 style="display: flex; justify-content: space-between; align-items: center;">
+            <div class="api-endpoint api-endpoint-margin">
+                <h3 class="h3-flex">
                     <span>Player Detection Handler</span>
                     <button type="button" class="copy-button" onclick="copyCloudScript('player')">Copy</button>
                 </h3>
                 <p class="api-description">Detect suspicious player behavior and cheating patterns.</p>
-                <pre class="api-example" id="cloudscript-player" style="max-height: 300px; overflow-y: auto;"></pre>
+                <pre class="api-example pre-scroll" id="cloudscript-player"></pre>
             </div>
 
-            <div class="api-endpoint" style="margin-bottom: 12px;">
-                <h3 style="display: flex; justify-content: space-between; align-items: center;">
+            <div class="api-endpoint api-endpoint-margin">
+                <h3 class="h3-flex">
                     <span>VPN Detection Handler</span>
                     <button type="button" class="copy-button" onclick="copyCloudScript('vpn')">Copy</button>
                 </h3>
                 <p class="api-description">Detect VPN, proxy, or suspicious network connections.</p>
-                <pre class="api-example" id="cloudscript-vpn" style="max-height: 300px; overflow-y: auto;"></pre>
+                <pre class="api-example pre-scroll" id="cloudscript-vpn"></pre>
             </div>
 
-            <div class="api-endpoint" style="margin-bottom: 12px;">
-                <h3 style="display: flex; justify-content: space-between; align-items: center;">
+            <div class="api-endpoint api-endpoint-margin">
+                <h3 class="h3-flex">
                     <span>Complete CloudScript File</span>
                     <button type="button" class="copy-button" onclick="copyCloudScript('all')">Copy All</button>
                 </h3>
                 <p class="api-description">Complete CloudScript file with all handlers ready to use.</p>
-                <pre class="api-example" id="cloudscript-all" style="max-height: 350px; overflow-y: auto;"></pre>
+                <pre class="api-example pre-scroll-large" id="cloudscript-all"></pre>
             </div>
         </div>
 
@@ -842,9 +931,9 @@
             <h2 class="section-title">Remote Console</h2>
             <div class="console-container">
                 <div class="console-output" id="console-output">
-                    <div style="color: #00ff00;">AntiCheat Console v1.0</div>
-                    <div style="color: #94a3b8;">Type 'help' for available commands</div>
-                    <div style="color: #94a3b8;">Ready...</div>
+                    <div class="console-green">AntiCheat Console v1.0</div>
+                    <div class="console-gray">Type 'help' for available commands</div>
+                    <div class="console-gray">Ready...</div>
                 </div>
                 <div class="console-input-container">
                     <input type="text" class="console-input" id="console-input" placeholder="Enter command..." onkeypress="handleConsoleKeyPress(event)">
@@ -865,7 +954,7 @@
 
         <div id="api-tab" class="tab-content">
             <h2 class="section-title">API Documentation</h2>
-            <p style="color: var(--text-secondary); margin-bottom: 30px;">
+            <p class="api-p">
                 All API endpoints are available at <code style="color: var(--accent-primary);">http://localhost:8000</code> or your server URL.
                 Use these endpoints from your cloudscript or external applications.
             </p>
@@ -884,8 +973,8 @@
                 <div class="api-example">
 // GET Request
 fetch('http://localhost:8000/AntiCheat/Config')
-  .then(response => response.json())
-  .then(data => console.log(data));
+  .then(response =&gt; response.json())
+  .then(data =&gt; console.log(data));
 
 // POST Request (from cloudscript)
 const response = http.request(
@@ -1020,7 +1109,7 @@ const response = http.request(
 fetch('http://localhost:8000/AntiCheat/BannedAccounts')
   .then(response => response.json())
   .then(data => {
-      console.log(`Total banned: ${data.count}`);
+      console.log(`Total banned: ${data.count}`)
       data.accounts.forEach(account => {
           console.log(`${account.playerName} - ${account.reason}`);
       });
@@ -1044,7 +1133,7 @@ fetch('http://localhost:8000/AntiCheat/BannedAccounts')
 fetch('http://localhost:8000/AntiCheat/AllowedAccounts')
   .then(response => response.json())
   .then(data => {
-      console.log(`Total allowed: ${data.count}`);
+      console.log(`Total allowed: ${data.count}`)
       data.accounts.forEach(account => {
           console.log(`${account.playerName} (${account.playerId})`);
       });
