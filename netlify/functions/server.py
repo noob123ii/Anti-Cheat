@@ -9,6 +9,14 @@ parent_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__f
 if parent_dir not in sys.path:
     sys.path.insert(0, parent_dir)
 
+# Initialize database before importing app
+try:
+    import database
+    if database.DATABASE_URL:
+        database.init_database()
+except Exception as e:
+    print(f"Database initialization warning: {e}")
+
 from mangum import Mangum
 from main import app
 

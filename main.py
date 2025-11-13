@@ -10,6 +10,14 @@ import json
 import os
 from datetime import datetime, timedelta
 
+# Import database module
+try:
+    import database
+    USE_DATABASE = True
+except ImportError:
+    USE_DATABASE = False
+    database = None
+
 app = FastAPI()
 
 # Handle template directory for Netlify (functions run from netlify/functions/)
@@ -62,17 +70,25 @@ DEFAULT_CONFIG = {
     "ENABLE_BLACKLIST": True
 }
 
-# Load configuration from file
+# Load configuration - try database first, fallback to file
 def load_config() -> Dict[str, Any]:
-    """Load configuration from JSON file"""
+    """Load configuration from database or JSON file"""
+    if USE_DATABASE and database and database.DATABASE_URL:
+        try:
+            db_config = database.load_config_from_db()
+            if db_config:
+                # Merge with defaults
+                return {**DEFAULT_CONFIG, **db_config}
+        except Exception as e:
+            logger.warning(f"Error loading config from database, falling back to file: {e}")
+    
+    # Fallback to file
     try:
         if os.path.exists(CONFIG_FILE):
             with open(CONFIG_FILE, 'r') as f:
                 config = json.load(f)
-                # Merge with defaults to ensure all keys exist
                 return {**DEFAULT_CONFIG, **config}
         else:
-            # Create default config file
             save_config(DEFAULT_CONFIG)
             return DEFAULT_CONFIG.copy()
     except Exception as e:
@@ -80,7 +96,15 @@ def load_config() -> Dict[str, Any]:
         return DEFAULT_CONFIG.copy()
 
 def save_config(config: Dict[str, Any]) -> bool:
-    """Save configuration to JSON file"""
+    """Save configuration to database or JSON file"""
+    if USE_DATABASE and database and database.DATABASE_URL:
+        try:
+            if database.save_config_to_db(config):
+                return True
+        except Exception as e:
+            logger.warning(f"Error saving config to database, falling back to file: {e}")
+    
+    # Fallback to file
     try:
         with open(CONFIG_FILE, 'w') as f:
             json.dump(config, f, indent=2)
@@ -93,9 +117,16 @@ def get_config() -> Dict[str, Any]:
     """Get current configuration"""
     return load_config()
 
-# Load banned accounts
+# Load banned accounts - try database first, fallback to file
 def load_banned_accounts() -> List[Dict[str, Any]]:
-    """Load banned accounts from JSON file"""
+    """Load banned accounts from database or JSON file"""
+    if USE_DATABASE and database and database.DATABASE_URL:
+        try:
+            return database.load_banned_accounts_from_db()
+        except Exception as e:
+            logger.warning(f"Error loading banned accounts from database, falling back to file: {e}")
+    
+    # Fallback to file
     try:
         if os.path.exists(BANNED_ACCOUNTS_FILE):
             with open(BANNED_ACCOUNTS_FILE, 'r') as f:
@@ -106,10 +137,17 @@ def load_banned_accounts() -> List[Dict[str, Any]]:
         return []
 
 def save_banned_account(account: Dict[str, Any]) -> bool:
-    """Save a banned account to the list"""
+    """Save a banned account to database or JSON file"""
+    if USE_DATABASE and database and database.DATABASE_URL:
+        try:
+            if database.save_banned_account_to_db(account):
+                return True
+        except Exception as e:
+            logger.warning(f"Error saving banned account to database, falling back to file: {e}")
+    
+    # Fallback to file
     try:
         accounts = load_banned_accounts()
-        # Check if account already exists, update it if so
         existing_index = next((i for i, acc in enumerate(accounts) if acc.get("playerId") == account.get("playerId")), None)
         if existing_index is not None:
             accounts[existing_index] = account
@@ -122,9 +160,16 @@ def save_banned_account(account: Dict[str, Any]) -> bool:
         logger.error(f"Error saving banned account: {e}")
         return False
 
-# Load allowed accounts
+# Load allowed accounts - try database first, fallback to file
 def load_allowed_accounts() -> List[Dict[str, Any]]:
-    """Load allowed accounts from JSON file"""
+    """Load allowed accounts from database or JSON file"""
+    if USE_DATABASE and database and database.DATABASE_URL:
+        try:
+            return database.load_allowed_accounts_from_db()
+        except Exception as e:
+            logger.warning(f"Error loading allowed accounts from database, falling back to file: {e}")
+    
+    # Fallback to file
     try:
         if os.path.exists(ALLOWED_ACCOUNTS_FILE):
             with open(ALLOWED_ACCOUNTS_FILE, 'r') as f:
@@ -135,7 +180,15 @@ def load_allowed_accounts() -> List[Dict[str, Any]]:
         return []
 
 def save_allowed_accounts(accounts: List[Dict[str, Any]]) -> bool:
-    """Save allowed accounts list"""
+    """Save allowed accounts to database or JSON file"""
+    if USE_DATABASE and database and database.DATABASE_URL:
+        try:
+            if database.save_allowed_accounts_to_db(accounts):
+                return True
+        except Exception as e:
+            logger.warning(f"Error saving allowed accounts to database, falling back to file: {e}")
+    
+    # Fallback to file
     try:
         with open(ALLOWED_ACCOUNTS_FILE, 'w') as f:
             json.dump(accounts, f, indent=2)
@@ -146,6 +199,13 @@ def save_allowed_accounts(accounts: List[Dict[str, Any]]) -> bool:
 
 def is_account_allowed(player_id: str) -> bool:
     """Check if an account is in the allowed list"""
+    if USE_DATABASE and database and database.DATABASE_URL:
+        try:
+            return database.is_account_allowed_in_db(player_id)
+        except Exception as e:
+            logger.warning(f"Error checking allowed account in database, falling back to file: {e}")
+    
+    # Fallback to file
     allowed = load_allowed_accounts()
     return any(acc.get("playerId") == player_id for acc in allowed)
 
@@ -153,7 +213,6 @@ def add_allowed_account(player_id: str, player_name: str = "Unknown") -> bool:
     """Add an account to the allowed list"""
     try:
         accounts = load_allowed_accounts()
-        # Check if already exists
         if not any(acc.get("playerId") == player_id for acc in accounts):
             accounts.append({
                 "playerId": player_id,
@@ -168,6 +227,14 @@ def add_allowed_account(player_id: str, player_name: str = "Unknown") -> bool:
 
 def remove_allowed_account(player_id: str) -> bool:
     """Remove an account from the allowed list"""
+    if USE_DATABASE and database and database.DATABASE_URL:
+        try:
+            if database.remove_allowed_account_from_db(player_id):
+                return True
+        except Exception as e:
+            logger.warning(f"Error removing allowed account from database, falling back to file: {e}")
+    
+    # Fallback to file
     try:
         accounts = load_allowed_accounts()
         accounts = [acc for acc in accounts if acc.get("playerId") != player_id]
@@ -175,6 +242,14 @@ def remove_allowed_account(player_id: str) -> bool:
     except Exception as e:
         logger.error(f"Error removing allowed account: {e}")
         return False
+
+# Initialize database if available
+if USE_DATABASE and database:
+    try:
+        database.init_database()
+        logger.info("Database initialized successfully")
+    except Exception as e:
+        logger.warning(f"Database initialization failed: {e}")
 
 # Initialize config
 config = get_config()
