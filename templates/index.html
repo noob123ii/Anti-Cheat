@@ -494,6 +494,54 @@
             background: var(--accent-primary);
             border-color: var(--accent-primary);
         }
+
+        .loading-cell {
+            text-align: center;
+            padding: 10px;
+        }
+
+        .inline-style-wrapper {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 8px;
+            flex-wrap: wrap;
+        }
+
+        .inline-style-margin {
+            margin-bottom: 10px;
+        }
+
+        .inline-style-table {
+            margin-bottom: 15px;
+        }
+
+        .inline-style-h3 {
+            color: var(--accent-primary);
+            margin-bottom: 8px;
+            font-size: 1em;
+        }
+
+        .inline-style-info {
+            margin-top: 15px;
+        }
+
+        .inline-style-info-h4 {
+            color: var(--accent-primary);
+            margin-bottom: 6px;
+            font-size: 0.95em;
+        }
+
+        .inline-style-info-p {
+            margin-bottom: 6px;
+        }
+
+        .inline-style-info-div {
+            margin-top: 6px;
+        }
+
+        .inline-style-button {
+            margin-top: 8px;
+        }
     </style>
 </head>
 <body>
@@ -657,7 +705,7 @@
         </div>
 
         <div id="banned-tab" class="tab-content">
-            <div style="margin-bottom: 10px;">
+            <div class="inline-style-margin">
                 <button type="button" class="button button-success" onclick="loadBannedAccounts()">🔄 Refresh</button>
             </div>
             <div id="banned-message" class="message"></div>
@@ -675,7 +723,7 @@
                     </thead>
                     <tbody id="banned-accounts-body">
                         <tr>
-                            <td colspan="6" style="text-align: center; padding: 10px;">Loading...</td>
+                            <td colspan="6" class="loading-cell">Loading...</td>
                         </tr>
                     </tbody>
                 </table>
@@ -692,20 +740,20 @@
             </div>
             <div id="allowed-message" class="message"></div>
             
-            <h3 style="color: var(--accent-primary); margin-bottom: 8px; font-size: 1em;">Currently Allowed Accounts</h3>
-            <div class="table-container" style="margin-bottom: 15px;">
+            <h3 class="inline-style-h3">Currently Allowed Accounts</h3>
+            <div class="table-container inline-style-table">
                 <table>
                     <thead>
                         <tr>
-                            <th style="width: 50px;">✓</th>
-                            <th>Player Name</th>
-                            <th>Player ID</th>
-                            <th>Added At</th>
+                            <th scope="col" style="width: 50px;">✓</th>
+                            <th scope="col">Player Name</th>
+                            <th scope="col">Player ID</th>
+                            <th scope="col">Added At</th>
                         </tr>
                     </thead>
                     <tbody id="allowed-accounts-body">
                         <tr>
-                            <td colspan="4" style="text-align: center; padding: 10px;">Loading...</td>
+                            <td colspan="4" class="loading-cell">Loading...</td>
                         </tr>
                     </tbody>
                 </table>
@@ -719,17 +767,17 @@
                 <table>
                     <thead>
                         <tr>
-                            <th style="width: 50px;">☑</th>
-                            <th>Player Name</th>
-                            <th>Player ID</th>
-                            <th>HWID</th>
-                            <th>IP</th>
-                            <th>Status</th>
+                            <th scope="col" style="width: 50px;">☑</th>
+                            <th scope="col">Player Name</th>
+                            <th scope="col">Player ID</th>
+                            <th scope="col">HWID</th>
+                            <th scope="col">IP</th>
+                            <th scope="col">Status</th>
                         </tr>
                     </thead>
                     <tbody id="all-accounts-body">
                         <tr>
-                            <td colspan="6" style="text-align: center; padding: 10px;">Loading...</td>
+                            <td colspan="6" class="loading-cell">Loading...</td>
                         </tr>
                     </tbody>
                 </table>
@@ -1086,10 +1134,10 @@ fetch('http://localhost:8000/api/config/update', {
                 </div>
             </div>
 
-            <div class="info-box" style="margin-top: 15px;">
-                <h4 style="color: var(--accent-primary); margin-bottom: 6px; font-size: 0.95em;">Response Format</h4>
-                <p style="margin-bottom: 6px;">All endpoints return JSON with the following structure:</p>
-                <div class="api-example" style="margin-top: 6px;">
+            <div class="info-box inline-style-info">
+                <h4 class="inline-style-info-h4">Response Format</h4>
+                <p class="inline-style-info-p">All endpoints return JSON with the following structure:</p>
+                <div class="api-example inline-style-info-div">
 {
     "ResultCode": 0,  // 0 = success, 1 = error
     "Message": "Operation completed successfully",
