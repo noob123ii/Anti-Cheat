@@ -11,7 +11,17 @@ import os
 from datetime import datetime, timedelta
 
 app = FastAPI()
-templates = Jinja2Templates(directory="templates")
+
+# Handle template directory for Netlify (functions run from netlify/functions/)
+# Check if we're running on Netlify
+_is_netlify = os.environ.get("NETLIFY") == "true" or os.environ.get("AWS_LAMBDA_FUNCTION_NAME") is not None
+if _is_netlify:
+    # On Netlify, templates are in the root directory relative to the function
+    template_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), "templates")
+else:
+    template_dir = "templates"
+
+templates = Jinja2Templates(directory=template_dir)
 logger = logging.getLogger(__name__)
 
 # Add CORS middleware to fix Method Not Allowed issues
