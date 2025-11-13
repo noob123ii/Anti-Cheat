@@ -4,23 +4,25 @@ FastAPI server with endpoints for AntiCheat functionality.
 
 ## 🚀 Deployment
 
-### Vercel Deployment
+### Netlify Deployment
 
-This project is configured for Vercel deployment. To deploy:
+This project is configured for Netlify deployment. To deploy:
 
-1. **Push to GitHub** (see below)
-2. **Connect to Vercel**:
-   - Go to [vercel.com](https://vercel.com)
-   - Import your GitHub repository
-   - Vercel will automatically detect the Python configuration
-   - Deploy!
+1. **Push to GitHub** (already done!)
+2. **Connect to Netlify**:
+   - Go to [netlify.com](https://netlify.com)
+   - Click "Add new site" → "Import an existing project"
+   - Connect your GitHub account
+   - Select the repository: `noob123ii/Anti-Cheat`
+   - Netlify will auto-detect the configuration from `netlify.toml`
+   - Click "Deploy site"!
 
-3. **Important Notes for Vercel**:
+3. **Important Notes for Netlify**:
    - File-based storage (JSON files) uses `/tmp` which is temporary
    - For production, consider using:
-     - **Vercel KV** (Redis) for persistent storage
+     - **Netlify Functions** with external storage
      - **Supabase** or **MongoDB** for database
-     - **Environment Variables** for configuration
+     - **Environment Variables** for configuration (set in Netlify Dashboard → Site settings → Environment variables)
 
 ### Local Development
 

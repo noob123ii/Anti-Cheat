@@ -24,10 +24,11 @@ app.add_middleware(
 )
 
 # Configuration file paths
-# On Vercel, use /tmp for writable files (note: data won't persist between deployments)
-# For production, consider using a database or Vercel KV
+# On Netlify/Vercel, use /tmp for writable files (note: data won't persist between deployments)
+# For production, consider using a database or external storage
+NETLIFY_ENV = os.environ.get("NETLIFY") == "true" or os.environ.get("AWS_LAMBDA_FUNCTION_NAME") is not None
 VERCEL_ENV = os.environ.get("VERCEL") == "1"
-BASE_DIR = "/tmp" if VERCEL_ENV else "."
+BASE_DIR = "/tmp" if (NETLIFY_ENV or VERCEL_ENV) else "."
 
 CONFIG_FILE = os.path.join(BASE_DIR, "config.json")
 BANNED_ACCOUNTS_FILE = os.path.join(BASE_DIR, "banned_accounts.json")

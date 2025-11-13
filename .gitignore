@@ -39,8 +39,8 @@ wheels/
 .DS_Store
 Thumbs.db
 
-# Vercel
-.vercel
+# Netlify
+.netlify
 
 # Logs
 *.log

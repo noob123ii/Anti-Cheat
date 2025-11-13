@@ -1,0 +1,13 @@
+[build]
+  command = "echo 'No build step required'"
+  functions = "netlify/functions"
+  publish = "."
+
+[build.environment]
+  PYTHON_VERSION = "3.9"
+
+[[redirects]]
+  from = "/*"
+  to = "/.netlify/functions/server"
+  status = 200
+
