@@ -6,8 +6,10 @@
 [build.environment]
   PYTHON_VERSION = "3.9"
 
+# Redirect all requests to the serverless function
 [[redirects]]
   from = "/*"
   to = "/.netlify/functions/server"
   status = 200
+  force = true
 

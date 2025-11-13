@@ -3,17 +3,20 @@ Netlify serverless function handler for FastAPI app
 """
 import sys
 import os
-from mangum import Mangum
 
 # Add parent directory to path to import main
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+parent_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+if parent_dir not in sys.path:
+    sys.path.insert(0, parent_dir)
 
+from mangum import Mangum
 from main import app
 
 # Wrap FastAPI app with Mangum for AWS Lambda/Netlify compatibility
-handler = Mangum(app, lifespan="off")
+mangum_handler = Mangum(app, lifespan="off")
 
-def lambda_handler(event, context):
+# Export handler for Netlify Functions
+def handler(event, context):
     """AWS Lambda handler for Netlify Functions"""
-    return handler(event, context)
+    return mangum_handler(event, context)
 
