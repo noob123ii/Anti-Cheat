@@ -18,11 +18,11 @@ This project is configured for Netlify deployment. To deploy:
    - Click "Deploy site"!
 
 3. **Important Notes for Netlify**:
-   - File-based storage (JSON files) uses `/tmp` which is temporary
-   - For production, consider using:
-     - **Netlify Functions** with external storage
-     - **Supabase** or **MongoDB** for database
-     - **Environment Variables** for configuration (set in Netlify Dashboard → Site settings → Environment variables)
+   - **Neon Database Integration**: The app uses Neon PostgreSQL database for persistent storage
+   - Set `NETLIFY_DATABASE_URL` environment variable in Netlify Dashboard → Site settings → Environment variables
+   - Database tables are automatically created on first deployment
+   - If database is not configured, the system falls back to temporary JSON file storage
+   - See `DATABASE_SETUP.md` for detailed database setup instructions
 
 ### Local Development
 
