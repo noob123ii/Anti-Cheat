@@ -955,7 +955,7 @@
         <div id="api-tab" class="tab-content">
             <h2 class="section-title">API Documentation</h2>
             <p class="api-p">
-                All API endpoints are available at <code style="color: var(--accent-primary);">http://localhost:8000</code> or your server URL.
+                All API endpoints are available at <code class="accent-code">http://localhost:8000</code> or your server URL.
                 Use these endpoints from your cloudscript or external applications.
             </p>
 
@@ -1107,10 +1107,10 @@ const response = http.request(
                 <div class="api-example">
 // GET Request
 fetch('http://localhost:8000/AntiCheat/BannedAccounts')
-  .then(response => response.json())
-  .then(data => {
+  .then(response =&gt; response.json())
+  .then(data =&gt; {
       console.log(`Total banned: ${data.count}`)
-      data.accounts.forEach(account => {
+      data.accounts.forEach(account =&gt; {
           console.log(`${account.playerName} - ${account.reason}`);
       });
   });
@@ -1131,10 +1131,10 @@ fetch('http://localhost:8000/AntiCheat/BannedAccounts')
                 <div class="api-example">
 // GET Request
 fetch('http://localhost:8000/AntiCheat/AllowedAccounts')
-  .then(response => response.json())
-  .then(data => {
+  .then(response =&gt; response.json())
+  .then(data =&gt; {
       console.log(`Total allowed: ${data.count}`)
-      data.accounts.forEach(account => {
+      data.accounts.forEach(account =&gt; {
           console.log(`${account.playerName} (${account.playerId})`);
       });
   });
@@ -1406,7 +1406,7 @@ fetch('http://localhost:8000/api/config/update', {
                         tbody.appendChild(row);
                     });
                 } else {
-                    tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 10px;">No banned accounts found</td></tr>';
+                    tbody.innerHTML = '<tr><td colspan="6" class="loading-cell">No banned accounts found</td></tr>';
                 }
             } catch (error) {
                 document.getElementById('banned-message').textContent = 'Failed to load banned accounts: ' + error.message;
@@ -1450,7 +1450,7 @@ fetch('http://localhost:8000/api/config/update', {
                         const row = document.createElement('tr');
                         const addedAt = account.addedAt ? new Date(account.addedAt).toLocaleString() : 'Unknown';
                         row.innerHTML = `
-                            <td style="text-align: center;">
+                            <td class="loading-cell">
                                 <input type="checkbox" class="allowed-checkbox" data-player-id="${escapeHtml(account.playerId)}" checked>
                             </td>
                             <td>${escapeHtml(account.playerName)}</td>
@@ -1460,7 +1460,7 @@ fetch('http://localhost:8000/api/config/update', {
                         allowedTbody.appendChild(row);
                     });
                 } else {
-                    allowedTbody.innerHTML = '<tr><td colspan="4" style="text-align: center; padding: 10px;">No allowed accounts found</td></tr>';
+                    allowedTbody.innerHTML = '<tr><td colspan="4" class="loading-cell">No allowed accounts found</td></tr>';
                 }
                 
                 // Build all accounts list from banned accounts
@@ -1505,7 +1505,7 @@ fetch('http://localhost:8000/api/config/update', {
                                 : '<span class="badge badge-danger">Not Allowed</span>';
                             
                             row.innerHTML = `
-                                <td style="text-align: center;">
+                                <td class="loading-cell">
                                     <input type="checkbox" class="account-checkbox" data-player-id="${escapeHtml(account.playerId)}" data-player-name="${escapeHtml(account.playerName)}" ${isAllowed ? 'checked' : ''}>
                                 </td>
                                 <td>${escapeHtml(account.playerName)}</td>
